@@ -1,31 +1,15 @@
 class ApplicationController < ActionController::API
-  def encode_token(user_id)
-    payload = { sub: user_id, exp: (1).minutes.from_now.to_i }
-    JWT.encode(payload, ENV['RAILS_MASTER_KEY'])
-  end
-
-  def decode_token
-    auth_header = request.headers['Authorization']
-    if auth_header
-        token = auth_header.split(' ').last
-      begin
-        JWT.decode(token, ENV['RAILS_MASTER_KEY'], true, algorithm: 'HS256')
-      rescue JWT::DecodeError
-        nil
-      end
+  def authorize_request
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    begin
+      @decoded = JsonWebToken.decode(header)
+      @current_user = User.find(@decoded[:sub])
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { errors: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => e
+      render json: { errors: e.message }, status: :unauthorized
     end
-  end
-
-  def authorized_user
-    decode_token = decode_token()
-    if decode_token
-      user_id = decode_token[0]['sub']
-      @user = User.find(user_id)
-    end
-  end
-
-  def authorized
-    render json: { message: 'Unauthorized.' }, status: :unauthorized unless authorized_user
   end
 
 end

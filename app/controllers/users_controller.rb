@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorized, only: %i[ index show update destroy ]
+  before_action :authorize_request, only: %i[ index show update destroy ]
   before_action :load_user, only: %i[ show update destroy ]
 
   # GET /users
