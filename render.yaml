@@ -1,0 +1,23 @@
+databases:
+  - name: courses-api
+    databaseName: courses-api
+    user: courses-api
+    plan: free
+
+services:
+  - type: web
+    name: courses-api
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: courses-api
+          property: connectionString
+      - key: 692c1f33d5be7a0f7bda780229734cc4
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2 # sensible default

@@ -16,5 +16,8 @@ test:
 
 
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: courses_production
+  url: <%= ENV.fetch['DATABASE_URL'] %>
