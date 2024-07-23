@@ -7,7 +7,9 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 
-Dotenv::Rails.load
+if Rails.env.development? || Rails.env.test?
+  Dotenv::Rails.load
+end
 
 module CoursesApi
   class Application < Rails::Application
