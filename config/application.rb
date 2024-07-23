@@ -6,6 +6,11 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
+if Rails.env.development? || Rails.env.test?
+  Dotenv::Railtie.load
+end
+
 module CoursesApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -13,7 +18,7 @@ module CoursesApi
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # Common ones are `templates`, `generators`, or `middleware`, for exam;ple.
     config.autoload_lib(ignore: %w(assets tasks))
 
     # Configuration for the application, engines, and railties goes here.
