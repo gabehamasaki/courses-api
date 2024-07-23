@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   def encode_token(payload)
-    JWT.encode(payload, ENV['JWT_SECRET'])
+    JWT.encode(payload, ENV['RAILS_MASTER_KEY'])
   end
 
   def decode_token
@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
     if auth_header
         token = auth_header.split(' ').last
       begin
-        JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
+        JWT.decode(token, ENV['RAILS_MASTER_KEY'], true, algorithm: 'HS256')
       rescue JWT::DecodeError
         nil
       end
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-    render json: { message: 'Unauthorized.', env: ENV['JWT_SECRET'] }, status: :unauthorized unless authorized_user
+    render json: { message: 'Unauthorized.', env: ENV['RAILS_MASTER_KEY'] }, status: :unauthorized unless authorized_user
   end
 
 end
