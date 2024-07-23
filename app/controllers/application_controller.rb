@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
-  def encode_token(payload)
+  def encode_token(user_id)
+    payload = { sub: user_id, exp: (1).minutes.from_now.to_i }
     JWT.encode(payload, ENV['RAILS_MASTER_KEY'])
   end
 
@@ -18,7 +19,7 @@ class ApplicationController < ActionController::API
   def authorized_user
     decode_token = decode_token()
     if decode_token
-      user_id = decode_token[0]['user_id']
+      user_id = decode_token[0]['sub']
       @user = User.find(user_id)
     end
   end
