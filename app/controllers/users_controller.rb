@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, only: %i[ index show update destroy ]
+  before_action :authorize_request
   before_action :load_user, only: %i[ show update destroy ]
 
   # GET /users
@@ -16,7 +16,9 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    # Generate a random password
+    value = ""; 8.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
+    @user = User.new(email: params[:email], name: params[:name], password: value)
 
     if @user.save
       render json: @user, status: :created, location: @user
