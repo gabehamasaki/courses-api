@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def create
     # Generate a random password
     value = ""; 8.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
-    @user = User.new(email: params[:email], name: params[:name], password: value)
+    @user = User.new(user_params().merge(password: value, role_id: params[:role_id] ? params[:role_id] : Role.find_by(name: "Member").id ))
 
     if @user.save
       render json: @user, status: :created, location: @user
@@ -49,6 +49,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.permit(:name, :email, :password)
+      params.require(:user).permit(:name, :email, :password, :role_id)
     end
 end

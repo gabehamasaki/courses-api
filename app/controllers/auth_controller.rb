@@ -14,7 +14,7 @@ class AuthController < ApplicationController
   end
 
   def register
-    user = User.create(name: params[:name], email: params[:email], password: params[:password])
+    user = User.create(name: params[:name], email: params[:email], password: params[:password], role_id: Role.find_by(name: "Member").id)
 
     if user.valid?
       render json: { status: 'User register successfully' }, status: :created

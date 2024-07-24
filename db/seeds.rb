@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+
+{
+  "Admin": 1,
+  "Member": 2
+}.each do |key, value|
+  Role.find_or_create_by!(name: key, level: value)
+end
