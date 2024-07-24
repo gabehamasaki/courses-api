@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     # Generate a random password
-    value = ""; 8.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
+    value = ""; 25.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
     @user = User.new(user_params().merge(password: value, role_id: params[:role_id] ? params[:role_id] : Role.find_by(name: "Member").id ))
 
     if @user.save

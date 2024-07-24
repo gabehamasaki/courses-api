@@ -15,3 +15,20 @@
 }.each do |key, value|
   Role.find_or_create_by!(name: key, level: value)
 end
+
+begin
+  value = ""; 25.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
+  User.create!(name: "Gabriel Hamasaki",email: "gabriel.hamasaki@courses.com", password: value, role_id: 1)
+  Logger.new(STDOUT).info("User created with email: gabriel.hamasaki@courses.com and password: #{value}")
+rescue ActiveRecord::RecordInvalid
+end
+
+if Rails.env.development? || Rails.env.test?
+  10.times do
+    begin
+      value = ""; 25.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
+      User.create!(name: Faker::Name.name, email: Faker::Internet.email, password: value, role_id: 2)
+    rescue ActiveRecord::RecordInvalid
+    end
+  end
+end
