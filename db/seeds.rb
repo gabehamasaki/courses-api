@@ -13,7 +13,7 @@
   "Admin": 1,
   "Member": 2
 }.each do |key, value|
-  Role.find_or_create_by!(name: key, level: value)
+  Role.find_or_create_by!(name: key)
 end
 
 begin
