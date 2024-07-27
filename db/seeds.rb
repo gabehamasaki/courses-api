@@ -9,12 +9,10 @@
 #   end
 
 
-{
-  "Admin": 1,
-  "Member": 2
-}.each do |key, value|
-  Role.find_or_create_by!(name: key)
+["Admin", "Member", "Teacher"].each do |role_name|
+  Role.find_or_create_by!(name: role_name)
 end
+
 
 begin
   value = ""; 25.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
