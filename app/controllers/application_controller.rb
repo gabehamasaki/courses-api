@@ -13,6 +13,7 @@ class ApplicationController < ActionController::API
       end
 
       @current = User.find(@decoded[:sub])
+      session[:user_id] = @current.id
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Unauthorized' }, status: :unauthorized
     rescue JWT::DecodeError
@@ -26,12 +27,16 @@ class ApplicationController < ActionController::API
     if user&.authenticate(params[:password])
       exp = 4.hours.from_now
       token = JsonWebToken.encode({ sub: user.id }, exp);
-
       render json: { token: token, exp: exp.strftime("%m-%d-%Y %H:%M"),
                      username: user.email }, status: :ok
     else
       render json: { error: 'unauthorized' }, status: :unauthorized
     end
+  end
+
+  def logout
+    @current = nil
+    render json: { status: 'Logged out successfully' }, status: :ok
   end
 
   def register
