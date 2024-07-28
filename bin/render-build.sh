@@ -4,4 +4,6 @@ set -o errexit
 
 bundle install
 
-rails db:reset
+rails db:create
+rails db:migrate
+rails db:seed
