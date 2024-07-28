@@ -13,7 +13,6 @@ class ApplicationController < ActionController::API
       end
 
       @current = User.find(@decoded[:sub])
-      session[:user_id] = @current.id
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Unauthorized' }, status: :unauthorized
     rescue JWT::DecodeError
