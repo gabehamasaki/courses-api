@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
   end
   post '/courses/:id/join', to: 'courses#join'
+  get '/rated/courses', to: 'rated#courses'
 
   resources :roles
   resources :users
