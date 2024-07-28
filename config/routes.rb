@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
-  resources :courses
+  resources :courses do
+    resources :topics do
+      resources :lessons
+    end
+  end
+  post '/courses/:id/join', to: 'courses#join'
+
   resources :roles
   resources :users
 
-  post '/courses/:id/join', to: 'courses#join'
-  post '/auth/login', to: 'auth#login'
-  post '/auth/register', to: 'auth#register'
+  post '/auth/login', to: 'application#login'
+  post '/auth/register', to: 'application#register'
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 end

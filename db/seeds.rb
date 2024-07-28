@@ -30,3 +30,13 @@ if Rails.env.development? || Rails.env.test?
     end
   end
 end
+
+if Rails.env.development? || Rails.env.test?
+  10.times do
+    begin
+      value = ""; 25.times{value << ((rand(2)==1?65:97) + rand(25)).chr}
+      User.create!(name: Faker::Name.name, email: Faker::Internet.email, password: value, role_id: 3)
+    rescue ActiveRecord::RecordInvalid
+    end
+  end
+end

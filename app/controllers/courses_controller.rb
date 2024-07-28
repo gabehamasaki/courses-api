@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :authorize_request
+  before_action :authorize_request, except: %i[ index show ]
   before_action :set_course, only: %i[ show update destroy join ]
   before_action :verify_teacher, only: %i[ create ]
   before_action :verify_student, only: %i[ join ]
@@ -13,7 +13,17 @@ class CoursesController < ApplicationController
 
   # GET /courses/1
   def show
-    render json: @course, include: [:teacher, :students]
+    logger.debug url_for(@course.image)
+    render json: {
+      id: @course.id,
+      name: @course.name,
+      description: @course.description,
+      value: @course.value,
+      image_url: url_for(@course.image),
+      teacher: @course.teacher,
+      students: @course.students,
+      topics: @course.topics
+    }
   end
 
   # POST /courses
@@ -53,7 +63,7 @@ class CoursesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
-      if @current == @course.teacher || @current.role.name == 'Admin'
+      if !@current || @current == @course.teacher || @current.role.name == 'Admin'
         return @course
       else
         render json: { error: 'Only the teacher of this course can access it' }, status: :bad_request
@@ -92,6 +102,6 @@ class CoursesController < ApplicationController
     
     # Only allow a list of trusted parameters through.
     def course_params
-      params.require(:course).permit(:name, :description, :teacher_id, :value)
+      params.permit(:name, :description, :teacher_id, :value, :image)
     end
 end
