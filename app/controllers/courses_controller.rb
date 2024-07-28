@@ -8,33 +8,12 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
 
-    render json: {
-      courses: @courses.map do |course|
-        {
-          id: course.id,
-          name: course.name,
-          description: course.description,
-          value: course.value,
-          image_url: url_for(course.image),
-          teacher: course.teacher,
-        }
-      end
-    }
-    
+    render json: @courses
   end
 
   # GET /courses/1
   def show
-    render json: {
-      id: @course.id,
-      name: @course.name,
-      description: @course.description,
-      value: @course.value,
-      image_url: url_for(@course.image),
-      teacher: @course.teacher,
-      students: @course.students,
-      topics: @course.topics
-    }
+    render json: @course
   end
 
   # POST /courses
