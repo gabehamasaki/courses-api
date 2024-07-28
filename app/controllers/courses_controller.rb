@@ -87,7 +87,7 @@ class CoursesController < ApplicationController
       else
         @teacher = User.find(params[:teacher_id])
       end
-      if (@teacher.role.name == 'Teacher')
+      if (@teacher.role.name == 'Teacher' || @teacher.role.name == 'Admin')
         return @teacher
       else
         render json: { error: 'Only the teacher can be associated with a course.' }, status: :bad_request
