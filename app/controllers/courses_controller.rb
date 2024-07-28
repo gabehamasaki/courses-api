@@ -20,6 +20,7 @@ class CoursesController < ApplicationController
         }
       end
     }
+    
   end
 
   # GET /courses/1
