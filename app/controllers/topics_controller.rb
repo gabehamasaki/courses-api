@@ -51,7 +51,6 @@ class TopicsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def topic_params
-      logger.debug params
       params.permit(:name, :order).merge(course_id: params[:course_id])
     end
 end

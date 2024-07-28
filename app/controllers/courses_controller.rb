@@ -13,7 +13,6 @@ class CoursesController < ApplicationController
 
   # GET /courses/1
   def show
-    logger.debug url_for(@course.image)
     render json: {
       id: @course.id,
       name: @course.name,
