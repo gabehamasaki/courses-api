@@ -6,3 +6,4 @@ bundle install
 
 rails db:create --trace
 rails db:migrate --trace
+rails db:seed --trace
