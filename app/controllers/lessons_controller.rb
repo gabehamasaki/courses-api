@@ -11,14 +11,7 @@ class LessonsController < ApplicationController
 
   # GET /lessons/1
   def show
-    render json: {
-      id: @lesson.id,
-      name: @lesson.name,
-      description: @lesson.description,
-      order: @lesson.order,
-      video_url: url_for(@lesson.video),
-      topic: @lesson.topic
-    }
+    render json: @lesson
   end
 
   # POST /lessons

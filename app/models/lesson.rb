@@ -9,7 +9,6 @@ class Lesson < ApplicationRecord
       :name => name,
       :description => description,
       :order => order,
-      :video => Rails.application.routes.url_helpers.rails_blob_url(video, only_path: true),
       :topic => {
         :id => topic.id,
         :name => topic.name,
